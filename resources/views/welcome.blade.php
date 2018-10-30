@@ -64,8 +64,11 @@
             }
 
             .footer {
-                position: relative;
                 margin-bottom: 30px;
+                color: #636b6f;
+                padding: 0 25px;
+                font-size: 16px;
+                font-weight: 600;
             }
         </style>
     </head>
@@ -78,11 +81,11 @@
                 <div class="title m-b-md">
                     施工中....
                 </div>
-            </div>
-            <div class="footer">
-                <span>
-                    Power By 水原西守歌
-                </span>
+                <div class="footer">
+                    <span>
+                        Power By 水原西守歌
+                    </span>
+                </div>
             </div>
         </div>
     </body>
