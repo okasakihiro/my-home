@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>带我超巴？</title>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>{{ config('app.name') }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
@@ -71,15 +71,17 @@
                 font-weight: 600;
             }
         </style>
+
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div>
-                    <img src="images/global/under_construction.png" alt="施工中....">
+                    <img id="under-construction" v-on:click="changeText" src="images/global/under_construction.png" alt="施工中....">
                 </div>
-                <div class="title m-b-md">
-                    施工中....
+                <div class="title m-b-md" id="content">
+                    @{{ message }}
                 </div>
                 <div class="footer">
                     <span>
@@ -88,5 +90,31 @@
                 </div>
             </div>
         </div>
+        <script src="{{ mix('js/app.js') }}"></script>
+        <script>
+            var underConstruction = new Vue({
+                el: '#under-construction',
+                methods: {
+                    changeText: function () {
+                        if (content.status === 1) {
+                            content.message = '带我超巴！';
+                            content.status  = 2;
+                        } else {
+                            content.message = '施工中....';
+                            content.status  = 1;
+                        }
+                    }
+                }
+            });
+
+            var content = new Vue({
+                el: '#content',
+                data: {
+                    message: '施工中....',
+                    status: 1
+                }
+            });
+
+        </script>
     </body>
 </html>
