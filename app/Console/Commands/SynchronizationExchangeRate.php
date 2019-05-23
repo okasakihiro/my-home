@@ -22,13 +22,10 @@ class SynchronizationExchangeRate extends Command
      */
     protected $description = 'Get current time exchange rate from CurrencyLayer';
 
-    const CNY_TO_JPY_PARAM = 'CNY/JPY';
-    const USD_TO_JPY_PARAM = 'USD/JPY';
-    const EXCHANGE_API_URL = 'https://rest.coinapi.io/v1/exchangerate/';
+    const EXCHANGE_API_URL = 'http://apilayer.net/api/live';
 
     private $client;
     private $usdToJpy = null;
-    private $cnyToJpy = null;
 
     /**
      * Create a new command instance.
@@ -41,28 +38,20 @@ class SynchronizationExchangeRate extends Command
         $this->client = new Client();
     }
 
-    private function getExchangeRateData($currency) :void
+    private function getExchangeRateData() :void
     {
-        $response = $this->client->request('get', self::EXCHANGE_API_URL . $currency, [
-            'headers' => [
-                'X-CoinAPI-Key' => config('services.coin_api_key.access_key')
+        $response = $this->client->request('get', self::EXCHANGE_API_URL, [
+            'query' => [
+                'access_key' => config('services.coin_api_key.access_key'),
+                'currencies' => 'JPY',
+                'source' => 'USD',
+                'format' => 1
             ],
         ]);
         $codeStatus = $response->getStatusCode();
         if ($codeStatus === 200) {
             $body = json_decode($response->getBody());
-            $rate = $body->rate;
-            switch ($currency) {
-                case self::USD_TO_JPY_PARAM:
-                    $this->usdToJpy = round($rate, 2);
-                    break;
-                case self::CNY_TO_JPY_PARAM:
-                    $this->cnyToJpy = round($rate, 2);
-                    break;
-                default:
-                    echo 'Currency type Error' . PHP_EOL;
-                    die();
-            }
+            $this->usdToJpy = round($body->quotes->USDJPY, 2);
         } else {
             //请求错误，需要检查
             echo 'Request Error' . PHP_EOL;
@@ -86,21 +75,14 @@ class SynchronizationExchangeRate extends Command
         $cynToJpy = null;
         //初始化重试计数器
         $retryCount = 0;
-        while (($this->usdToJpy === null || $this->cnyToJpy === null) && $retryCount < 3) {
-            if ($this->usdToJpy === null) {
-                $this->getExchangeRateData(self::USD_TO_JPY_PARAM);
-                echo 1;
-            }
-            if ($this->cnyToJpy === null) {
-                $this->getExchangeRateData(self::CNY_TO_JPY_PARAM);
-                echo 2;
-            }
+        while ($this->usdToJpy === null && $retryCount < 3) {
+            $this->getExchangeRateData();
+            echo $this->usdToJpy;
         }
 
-        if ($this->usdToJpy !== null && $this->cnyToJpy !== null) {
+        if ($this->usdToJpy !== null) {
             $exchangeRateModel = new ExchangeRate();
             $exchangeRateModel->usd_to_jpy = $this->usdToJpy;
-            $exchangeRateModel->cny_to_jpy = $this->cnyToJpy;
             if (!$exchangeRateModel->save()) {
                 echo $time . 'Exchange rate data save fail' . PHP_EOL;
             }
