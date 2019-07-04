@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +36,23 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        //拦截405异常
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            echo json_encode([
+                'code' => 405,
+                'message' => 'Method not allowed'
+            ]);
+            die();
+        }
+        //拦截404异常
+        if ($exception instanceof NotFoundHttpException) {
+            echo json_encode([
+                'code' => 404,
+                'message' => 'Not Found'
+            ]);
+            die();
+        }
+        //执行父类方法
         parent::report($exception);
     }
 
