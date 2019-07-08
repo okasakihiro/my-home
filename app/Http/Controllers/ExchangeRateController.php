@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 
 class ExchangeRateController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function getExchangeRate(Request $request)
     {
-        $exchangeRateDatum = ExchangeRate::orderBy('created_at', 'DESC')->first()->toJson();
-        return $exchangeRateDatum;
+        return ExchangeRate::orderBy('created_at', 'DESC')->first()->toJson();
     }
 }

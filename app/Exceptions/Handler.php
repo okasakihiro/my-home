@@ -36,23 +36,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        //拦截405异常
-        if ($exception instanceof MethodNotAllowedHttpException) {
-            echo json_encode([
-                'code' => 405,
-                'message' => 'Method not allowed'
-            ]);
-            die();
-        }
-        //拦截404异常
-        if ($exception instanceof NotFoundHttpException) {
-            echo json_encode([
-                'code' => 404,
-                'message' => 'Not Found'
-            ]);
-            die();
-        }
-        //执行父类方法
         parent::report($exception);
     }
 
@@ -65,6 +48,31 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        //判断是否存是HTTP异常
+        if ($this->isHttpException($exception)) {
+            switch ($exception->getStatusCode()) {
+                //404异常
+                case 404:
+                    return response([
+                        'code' => 404,
+                        'message' => 'Not Found'
+                    ]);
+                    break;
+                    //405异常
+                case 405:
+                    return response([
+                        'code' => 405,
+                        'message' => 'Method not allowed'
+                    ]);
+                    break;
+                    //其他异常
+                default:
+                    return response([
+                        'code' => 500,
+                        'message' => 'Server Error'
+                    ]);
+            }
+        }
         return parent::render($request, $exception);
     }
 }
