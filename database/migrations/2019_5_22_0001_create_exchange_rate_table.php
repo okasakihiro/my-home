@@ -22,7 +22,7 @@ class CreateExchangeRateTable extends Migration
     {
         Schema::create('exchange_rate', function (Blueprint $table) {
             $table->integer('id')->autoIncrement()->comment('主键ID');
-            $table->string('usd_to_jpy')->nullable(false)->comment('美元对日元汇率');
+            $table->string('jpy_to_cny')->nullable(false)->comment('日元兑换人民币汇率');
 
             $table->dateTime('created_at')
                 ->nullable(false)

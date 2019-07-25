@@ -44,7 +44,7 @@ return [
         ],
     ],
     'coin_api_key' => [
-        'access_key' => env('EXCHANGE_RATE_ACCESS_KEY')
+        'access_code' => env('EXCHANGE_RATE_ACCESS_CODE')
     ],
 
 ];

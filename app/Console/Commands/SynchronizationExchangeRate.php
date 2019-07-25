@@ -20,12 +20,12 @@ class SynchronizationExchangeRate extends Command
      *
      * @var string
      */
-    protected $description = 'Get current time exchange rate from CurrencyLayer';
+    protected $description = 'Get current time exchange rate';
 
     /**
-     * Layer open api interface.
+     * Open api interface.
      */
-    const EXCHANGE_API_URL = 'http://apilayer.net/api/live';
+    const EXCHANGE_API_URL = 'https://ali-waihui.showapi.com/waihui-transform';
 
     /**
      * Client Instance.
@@ -39,7 +39,7 @@ class SynchronizationExchangeRate extends Command
      *
      * @var null | double
      */
-    private $usdToJpy = null;
+    private $jpyToCny = null;
 
     /**
      * Create a new command instance.
@@ -53,20 +53,23 @@ class SynchronizationExchangeRate extends Command
     }
 
     /**
-     * Request layer open api get current exchange rate.
-     * 请求Layer的OpenApi获取当前汇率。
+     * Request open api get current exchange rate.
+     * 请求OpenApi获取当前汇率。
      *
      * return void
      */
     private function getExchangeRateData() :void
     {
+        $accessCode = str_replace('-', ' ', config('services.coin_api_key.access_code'));
         //请求开发接口获取汇率数据
         $response = $this->client->request('get', self::EXCHANGE_API_URL, [
+            'headers' => [
+                'Authorization' => $accessCode
+            ],
             'query' => [
-                'access_key' => config('services.coin_api_key.access_key'),
-                'currencies' => 'JPY',
-                'source' => 'USD',
-                'format' => 1
+                'fromCode' => 'JPY',
+                'toCode' => 'CNY',
+                'money' => 100
             ],
         ]);
         //获取响应头中的状态码
@@ -75,7 +78,7 @@ class SynchronizationExchangeRate extends Command
             //解码
             $body = json_decode($response->getBody());
             //取整保留后2位
-            $this->usdToJpy = round($body->quotes->USDJPY, 2);
+            $this->jpyToCny = round($body->showapi_res_body->money, 4);
         } else {
             //请求错误，需要检查
             echo 'Request Error' . PHP_EOL;
@@ -103,13 +106,13 @@ class SynchronizationExchangeRate extends Command
         //初始化重试计数器
         $retryCount = 0;
         //判断是否获取到了美元数据
-        while ($this->usdToJpy === null && $retryCount < 3) {
+        while ($this->jpyToCny === null && $retryCount < 3) {
             $this->getExchangeRateData();
         }
         //判断是否成功获取了汇率数据
-        if ($this->usdToJpy !== null) {
+        if ($this->jpyToCny !== null) {
             $exchangeRateModel = new ExchangeRate();
-            $exchangeRateModel->usd_to_jpy = $this->usdToJpy;
+            $exchangeRateModel->jpy_to_cyn = $this->jpyToCny;
             if (!$exchangeRateModel->save()) {
                 echo $time . 'Exchange rate data save fail' . PHP_EOL;
                 //TODO: E-mail notification system
