@@ -60,26 +60,28 @@ class SynchronizationExchangeRate extends Command
      */
     private function getExchangeRateData() :void
     {
-        $accessCode = str_replace('-', ' ', config('services.coin_api_key.access_code'));
-        //请求开发接口获取汇率数据
-        $response = $this->client->request('get', self::EXCHANGE_API_URL, [
-            'headers' => [
-                'Authorization' => $accessCode
-            ],
-            'query' => [
-                'fromCode' => 'JPY',
-                'toCode' => 'CNY',
-                'money' => 100
-            ],
-        ]);
-        //获取响应头中的状态码
-        $codeStatus = $response->getStatusCode();
-        if ($codeStatus === 200) {
-            //解码
-            $body = json_decode($response->getBody());
-            //取整保留后2位
-            $this->jpyToCny = round($body->showapi_res_body->money, 4);
-        } else {
+        try {
+            $accessCode = str_replace('-', ' ', config('services.coin_api_key.access_code'));
+            //请求开发接口获取汇率数据
+            $response = $this->client->request('get', self::EXCHANGE_API_URL, [
+                'headers' => [
+                    'Authorization' => $accessCode
+                ],
+                'query' => [
+                    'fromCode' => 'JPY',
+                    'toCode' => 'CNY',
+                    'money' => 100
+                ],
+            ]);
+            //获取响应头中的状态码
+            $codeStatus = $response->getStatusCode();
+            if ($codeStatus === 200) {
+                //解码
+                $body = json_decode($response->getBody());
+                //取整保留后2位
+                $this->jpyToCny = round($body->showapi_res_body->money, 4);
+            }
+        } catch (\Exception $exception) {
             //请求错误，需要检查
             echo 'Request Error' . PHP_EOL;
             //TODO: E-mail notification system
@@ -112,7 +114,7 @@ class SynchronizationExchangeRate extends Command
         //判断是否成功获取了汇率数据
         if ($this->jpyToCny !== null) {
             $exchangeRateModel = new ExchangeRate();
-            $exchangeRateModel->jpy_to_cyn = $this->jpyToCny;
+            $exchangeRateModel->jpy_to_cny = $this->jpyToCny;
             if (!$exchangeRateModel->save()) {
                 echo $time . 'Exchange rate data save fail' . PHP_EOL;
                 //TODO: E-mail notification system
