@@ -13,6 +13,12 @@ class ExchangeRateController extends Controller
      */
     public function getExchangeRate(Request $request)
     {
-        return ExchangeRate::orderBy('created_at', 'DESC')->first()->toJson();
+        $exchangeRate = ExchangeRate::orderBy('created_at', 'DESC')->first();
+        if ($exchangeRate === null) {
+            $exchangeRate = json_encode((object)[]);
+        } else {
+            $exchangeRate = $exchangeRate->toJson();
+        }
+        return $exchangeRate;
     }
 }

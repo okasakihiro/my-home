@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c0f7dcc-ec3c-4101-a423-07beb72608e7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/SynchronizationExchangeRate.php" afterPath="$PROJECT_DIR$/app/Console/Commands/SynchronizationExchangeRate.php" />
-      <change beforePath="$PROJECT_DIR$/config/services.php" afterPath="$PROJECT_DIR$/config/services.php" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_5_22_0001_create_blog_table.php" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_5_22_0001_create_exchange_rate_table.php" afterPath="$PROJECT_DIR$/database/migrations/2019_5_22_0001_create_exchange_rate_table.php" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ExchangeRateController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExchangeRateController.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ExchangeRateController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ExchangeRateController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExchangeRateController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+            <state relative-caret-position="396">
+              <caret line="18" column="16" lean-forward="true" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
               <folding>
                 <element signature="e#40#61#0#PHP" expanded="true" />
               </folding>
@@ -64,7 +59,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -143,7 +138,6 @@
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
         <option value="$PROJECT_DIR$/app/Exceptions/Handler.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/ExchangeRateController.php" />
         <option value="$PROJECT_DIR$/routes/apiV1.php" />
         <option value="$PROJECT_DIR$/tests/Unit/ExampleTest.php" />
         <option value="$PROJECT_DIR$/tests/Feature/ExampleTest.php" />
@@ -153,6 +147,7 @@
         <option value="$PROJECT_DIR$/app/Console/Commands/SynchronizationExchangeRate.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_5_22_0001_create_exchange_rate_table.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/ExchangeRateController.php" />
       </list>
     </option>
   </component>
@@ -441,12 +436,12 @@
       <workItem from="1562753534617" duration="1316000" />
       <workItem from="1562923326868" duration="921000" />
       <workItem from="1563362809942" duration="49000" />
-      <workItem from="1563858132404" duration="4151000" />
+      <workItem from="1563858132404" duration="4707000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71823000" />
+    <option name="totallyTimeSpent" value="72379000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1879" height="1057" extended-state="6" />
@@ -867,16 +862,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExchangeRateController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-          <folding>
-            <element signature="e#40#61#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Console/Commands/SynchronizationExchangeRate.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1225">
@@ -890,6 +875,16 @@
         <state relative-caret-position="0">
           <caret line="0" column="2" lean-forward="false" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExchangeRateController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" column="16" lean-forward="true" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding>
+            <element signature="e#40#61#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
